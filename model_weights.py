@@ -11,7 +11,7 @@ train=train.sample(frac=1)
 list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] # https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
 y = train[list_classes].values
 
-max_features = 20000
+max_features = 100000
 maxlen = 200
 
 list_sentences = train['comment_text'].values
