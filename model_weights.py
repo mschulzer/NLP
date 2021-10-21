@@ -6,9 +6,9 @@ from keras.layers import Activation, Concatenate, Permute, SpatialDropout1D, Rep
 from keras.models import Model
 import keras.backend as K
 
-train=pd.read_csv('train.csv')
+train=pd.read_csv('toxic_train.csv')
 train=train.sample(frac=1)
-list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]
+list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] # https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
 y = train[list_classes].values
 
 max_features = 20000
@@ -16,19 +16,18 @@ maxlen = 200
 
 list_sentences = train['comment_text'].values
 
-# Tokenize
+# Tokenize corpus
 tokenizer = Tokenizer(num_words=max_features)
 tokenizer.fit_on_texts(list(list_sentences))
 list_tokenized_train = tokenizer.texts_to_sequences(list_sentences)
 
-# Pad
+# Add padding
 X_t = pad_sequences(list_tokenized_train, maxlen=maxlen)
 
 
 
 class Attention:
     def __call__(self, inp, combine=True, return_attention=True):
-        # Expects inp to be of size (?, number of words, embedding dimension)
         
         repeat_size = int(inp.shape[-1])
         
@@ -62,7 +61,7 @@ class Attention:
 lstm_shape = 60
 embed_size = 128
 
-# Define the model
+# Model details
 inp = Input(shape=(maxlen,))
 emb = Embedding(input_dim=max_features, input_length = maxlen, output_dim=embed_size)(inp)
 x = SpatialDropout1D(0.35)(emb)
@@ -78,10 +77,10 @@ attention_model = Model(inputs=inp, outputs=attention)
 model.fit(X_t, y, validation_split=.2, epochs=3, verbose=1, batch_size=512)
 
 
+# Helper functions
 def get_reverse_token_map(tokenizer):
     reverse_token_map = dict(map(reversed, tokenizer.word_index.items()))
     return reverse_token_map
-
 
 def get_word_importances(text):
     reverse_token_map = get_reverse_token_map(tokenizer)
@@ -94,3 +93,4 @@ def get_word_importances(text):
     
 ### EXAMPLES
 get_word_importances('She prefers uplifting movies') # ..., [('she', 0.06030082), ('prefers', 0.08760931), ('movies', 0.10084405)])
+get_word_importances('You are an asshole') # ..., [('you', 0.014374573), ('are', 0.023701496), ('an', 0.02919567), ('asshole', 0.9242637)])
