@@ -15,6 +15,8 @@ y = train[list_classes].values
 max_features = 100000
 maxlen = 200
 
+# train['comment_text'].head()
+
 list_sentences = train['comment_text'].values
 
 # Tokenize corpus
