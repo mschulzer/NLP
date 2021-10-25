@@ -9,7 +9,9 @@ import keras.backend as K
 
 train=pd.read_csv('toxic_train.csv')
 train=train.sample(frac=1)
-list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] # https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
+
+# https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
+list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] 
 y = train[list_classes].values
 
 max_features = 100000
@@ -52,7 +54,6 @@ class Attention:
         out = Multiply()([inp,x_a2])
         
         if combine:
-        # Now we sum over the resulting word representations
             out = Lambda(lambda x : K.sum(x, axis=1), name='expectation_over_words')(out)
         
         if return_attention:
