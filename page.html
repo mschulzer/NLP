@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="da" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Simple TFJS regression model</title>
+    <link rel="stylesheet" href="css/master.css">
+    <!--//<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.2"></script>//-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.4" charset="utf-8"></script>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td colspan="2"><b>Training data (CSV-format):</b></td>
+      </tr>
+      <tr>
+        <td>x-values</td>
+        <td><textarea class="training_data" id="training_input"></textarea></td>
+      </tr>
+      <tr>
+        <td>y-values</td>
+        <td><textarea class="training_data" id="training_output"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button type="button" id="btn_predict" onclick="trainAndPredict(event)">Predict</button>
+          <button type="button" id="btn_clear" onclick="runModel(event)">Clear input</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Num. of epochs: </td>
+        <td><input type="text" id="epochs_value" value="250"></td>
+      </tr>
+      <tr>
+        <td>X-value to try: </td>
+        <td><input type="text" id="x_value"></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <b>Preliminary predictions:</b>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div id="output_field"></div>
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript" src="scripts/model.js"></script>
+    <script type="text/javascript" src="scripts/model_2.js"></script>
+    <script type="text/javascript" src="scripts/custom_layer.js"></script>
+  </body>
+</html>
